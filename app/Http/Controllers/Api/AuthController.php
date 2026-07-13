@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -57,9 +59,16 @@ class AuthController extends Controller
         );
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::user()->currentAccessToken()->delete();
+        if (!Auth::check()) {
+            return $this->errorResponse(
+                __('messages.invalid_credentials'),
+                401
+            );
+        }
+
+        $request->user()->currentAccessToken()?->delete();
 
         return $this->successMessage(
             __('messages.logout_success'),
