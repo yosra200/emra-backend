@@ -7,7 +7,9 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -183,9 +185,16 @@ public function forgotPassword(Request $request)
  *     )
  * )
  */
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::user()->currentAccessToken()->delete();
+        if (!Auth::check()) {
+            return $this->errorResponse(
+                __('messages.invalid_credentials'),
+                401
+            );
+        }
+
+        $request->user()->currentAccessToken()?->delete();
 
         return $this->successMessage(
             __('messages.logout_success'),
