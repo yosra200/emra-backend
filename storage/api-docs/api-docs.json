@@ -2,13 +2,13 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Emra Backend API",
-        "description": "Auto-generated API documentation",
+        "description": "API Documentation for Emra Backend",
         "version": "1.0.0"
     },
     "servers": [
         {
-            "url": "http://localhost",
-            "description": "Local server"
+            "url": "https://emra.pixelmindeg.com",
+            "description": "Production Server"
         }
     ],
     "paths": {
@@ -26,15 +26,40 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name",
+                                    "first_name",
+                                    "last_name",
+                                    "phone",
                                     "email",
                                     "password",
                                     "password_confirmation"
                                 ],
                                 "properties": {
-                                    "name": {
+                                    "first_name": {
                                         "type": "string",
                                         "example": "Yosra"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Khattab"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "01000000000"
+                                    },
+                                    "second_phone": {
+                                        "type": "string",
+                                        "example": "01100000000",
+                                        "nullable": true
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Mansoura",
+                                        "nullable": true
+                                    },
+                                    "governorate": {
+                                        "type": "string",
+                                        "example": "Dakahlia",
+                                        "nullable": true
                                     },
                                     "email": {
                                         "type": "string",
@@ -167,6 +192,15 @@
                         "sanctum": []
                     }
                 ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

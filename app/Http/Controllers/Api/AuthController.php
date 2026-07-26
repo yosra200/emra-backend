@@ -10,35 +10,38 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use OpenApi\Attributes as OA;
 
 class AuthController extends Controller
 {
     use ApiResponse;
 
-    /**
- * @OA\Post(
- *     path="/api/register",
- *     tags={"Authentication"},
- *     summary="Register",
- *     description="Create a new user account",
- *
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"name","email","password","password_confirmation"},
- *             @OA\Property(property="name", type="string", example="Yosra"),
- *             @OA\Property(property="email", type="string", format="email", example="yosra@gmail.com"),
- *             @OA\Property(property="password", type="string", format="password", example="12345678"),
- *             @OA\Property(property="password_confirmation", type="string", format="password", example="12345678")
- *         )
- *     ),
- *
- *     @OA\Response(
- *         response=201,
- *         description="Registered successfully"
- *     )
- * )
- */
+#[OA\Post(
+        path: '/api/register',
+        summary: 'Register',
+        description: 'Create a new user account',
+        tags: ['Authentication'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['first_name', 'last_name', 'phone', 'email', 'password', 'password_confirmation'],
+                properties: [
+                    new OA\Property(property: 'first_name', type: 'string', example: 'Yosra'),
+                    new OA\Property(property: 'last_name', type: 'string', example: 'Khattab'),
+                    new OA\Property(property: 'phone', type: 'string', example: '01000000000'),
+                    new OA\Property(property: 'second_phone', type: 'string', example: '01100000000', nullable: true),
+                    new OA\Property(property: 'address', type: 'string', example: 'Mansoura', nullable: true),
+                    new OA\Property(property: 'governorate', type: 'string', example: 'Dakahlia', nullable: true),
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'yosra@gmail.com'),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: '12345678'),
+                    new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: '12345678'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 201, description: 'Registered successfully')
+        ]
+    )]
     public function register(RegisterRequest $request)
     {
         $user = User::create($request->validated());
@@ -54,33 +57,27 @@ class AuthController extends Controller
             201
         );
     }
-/**
- * @OA\Post(
- *     path="/api/login",
- *     tags={"Authentication"},
- *     summary="Login",
- *     description="Login user and return access token",
- *
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"email","password"},
- *             @OA\Property(property="email", type="string", format="email", example="yosra@gmail.com"),
- *             @OA\Property(property="password", type="string", format="password", example="12345678")
- *         )
- *     ),
- *
- *     @OA\Response(
- *         response=200,
- *         description="Login successful"
- *     ),
- *
- *     @OA\Response(
- *         response=401,
- *         description="Invalid credentials"
- *     )
- * )
- */
+
+    #[OA\Post(
+        path: '/api/login',
+        summary: 'Login',
+        description: 'Login user and return access token',
+        tags: ['Authentication'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['email', 'password'],
+                properties: [
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'yosra@gmail.com'),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: '12345678'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: 'Login successful'),
+            new OA\Response(response: 401, description: 'Invalid credentials')
+        ]
+    )]
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
@@ -94,10 +91,8 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        // حذف التوكنات القديمة (اختياري)
         $user->tokens()->delete();
 
-        // إنشاء توكن جديد
         $token = $user->createToken('react-app')->plainTextToken;
 
         return $this->successResponse(
@@ -110,81 +105,60 @@ class AuthController extends Controller
         );
     }
 
-    /**
- * @OA\Post(
- *     path="/api/forgot-password",
- *     tags={"Authentication"},
- *     summary="Forgot Password",
- *     description="Send password reset link to user's email",
- *
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"email"},
- *             @OA\Property(
- *                 property="email",
- *                 type="string",
- *                 format="email",
- *                 example="yosra@gmail.com"
- *             )
- *         )
- *     ),
- *
- *     @OA\Response(
- *         response=200,
- *         description="Reset link sent successfully"
- *     ),
- *
- *     @OA\Response(
- *         response=422,
- *         description="User not found"
- *     )
- * )
- */
-public function forgotPassword(Request $request)
-{
-    $request->validate([
-        'email' => ['required', 'email'],
-    ]);
+    #[OA\Post(
+        path: '/api/forgot-password',
+        summary: 'Forgot Password',
+        description: "Send password reset link to user's email",
+        tags: ['Authentication'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['email'],
+                properties: [
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'yosra@gmail.com')
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: 'Reset link sent successfully'),
+            new OA\Response(response: 422, description: 'User not found')
+        ]
+    )]
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
 
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-    if ($status === Password::RESET_LINK_SENT) {
-        return $this->successResponse(
-            [],
-            __('Password reset link sent successfully.'),
-            200
+        if ($status === Password::RESET_LINK_SENT) {
+            return $this->successResponse(
+                [],
+                __('Password reset link sent successfully.'),
+                200
+            );
+        }
+
+        return $this->errorResponse(
+            __('We could not find a user with that email address.'),
+            422
         );
     }
 
-    return $this->errorResponse(
-        __('We could not find a user with that email address.'),
-        422
-    );
-}
-
-/**
- * @OA\Post(
- *     path="/api/logout",
- *     tags={"Authentication"},
- *     summary="Logout",
- *     description="Logout authenticated user",
- *
- *     security={{"sanctum":{}}},
- *
- *     @OA\Response(
- *         response=200,
- *         description="Logged out successfully"
- *     ),
- *
- *     @OA\Response(
- *         response=401,
- *         description="Unauthenticated"
- *     )
- * )
- */
+    #[OA\Post(
+        path: '/api/logout',
+        summary: 'Logout',
+        description: 'Logout authenticated user',
+        tags: ['Authentication'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(response: 200, description: 'Logged out successfully'),
+            new OA\Response(response: 401, description: 'Unauthenticated')
+        ]
+    )]
     public function logout(Request $request)
     {
         if (!Auth::check()) {
