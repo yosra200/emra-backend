@@ -17,5 +17,5 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::delete('/logout', 'logout');
     Route::post('/forgot-password', 'forgotPassword');
-    Route::post('/reset-password',  'resetPassword');
+    Route::post('/reset-password', 'resetPassword');
 });

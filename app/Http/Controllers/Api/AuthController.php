@@ -172,6 +172,7 @@ class AuthController extends Controller
             new OA\Response(response: 422, description: 'Reset failed')
         ]
     )]
+
     public function resetPassword(ResetPasswordRequest $request)
     {
         $status = Password::reset(
@@ -183,7 +184,6 @@ class AuthController extends Controller
                 ])->save();
             }
         );
-
         if ($status === Password::PASSWORD_RESET) {
             return $this->successResponse(
                 [],
