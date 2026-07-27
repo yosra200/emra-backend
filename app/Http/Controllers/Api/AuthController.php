@@ -150,7 +150,28 @@ class AuthController extends Controller
         );
     }
 
-
+    #[OA\Post(
+        path: '/api/reset-password',
+        summary: 'Reset Password',
+        description: 'Reset user password using reset token',
+        tags: ['Authentication'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['email', 'password', 'password_confirmation', 'token'],
+                properties: [
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'yosra@gmail.com'),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: '12345678'),
+                    new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: '12345678'),
+                    new OA\Property(property: 'token', type: 'string', example: 'reset_token_here')
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: 'Password reset successfully'),
+            new OA\Response(response: 422, description: 'Reset failed')
+        ]
+    )]
     public function resetPassword(ResetPasswordRequest $request)
     {
         $status = Password::reset(
