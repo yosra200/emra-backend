@@ -5,18 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\forgotPasswordRequest;
+use App\Http\Requests\resetPasswordRequest;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
 use OpenApi\Attributes as OA;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
     use ApiResponse;
 
-#[OA\Post(
+    #[OA\Post(
         path: '/api/register',
         summary: 'Register',
         description: 'Create a new user account',
@@ -124,11 +128,9 @@ class AuthController extends Controller
             new OA\Response(response: 422, description: 'User not found')
         ]
     )]
-    public function forgotPassword(Request $request)
+
+    public function forgotPassword(forgotPasswordRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
 
         $status = Password::sendResetLink(
             $request->only('email')
@@ -148,6 +150,32 @@ class AuthController extends Controller
         );
     }
 
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return $this->successResponse(
+                [],
+                __('Password reset successfully.'),
+                200
+            );
+        }
+
+        return $this->errorResponse(
+            __($status),
+            422
+        );
+    }
     #[OA\Post(
         path: '/api/logout',
         summary: 'Logout',
