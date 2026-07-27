@@ -6,6 +6,8 @@ return [
     'login_success' => 'تم تسجيل الدخول بنجاح.',
     'invalid_credentials' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
     'logout_success' => 'تم تسجيل الخروج بنجاح.',
+    'products_retrieved' => 'تم استرجاع المنتجات بنجاح.',
+    'product_retrieved' => 'تم استرجاع المنتج بنجاح.',
 
     'success' => 'تم بنجاح.',
     'error' => 'حدث خطأ.',
