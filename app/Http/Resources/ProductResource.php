@@ -19,11 +19,12 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
+            'sale_price' => $this->sale_price,
+            'is_active' => $this->is_active,
             'category' => $this->whenLoaded('category', function () {
                 return [
                     'id' => $this->category->id,
-                    'name_ar' => $this->category->name_ar,
-                    'name_en' => $this->category->name_en,
+                    'name' => $this->category->name,
                 ];
             }),
             // 'images' => ImageResource::collection($this->whenLoaded('images')),

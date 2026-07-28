@@ -10,8 +10,19 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'sale_price',
+        'is_active',
         'category_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'decimal:2',
+            'sale_price' => 'decimal:2',
+            'is_active' => 'boolean',
+        ];
+    }
 
     public function category()
     {
@@ -21,5 +32,10 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 }
