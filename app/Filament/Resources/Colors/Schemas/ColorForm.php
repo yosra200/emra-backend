@@ -29,7 +29,7 @@ class ColorForm
                             ->label(__('panel.color.fields.code'))
                             ->hex()
                             ->helperText(__('panel.color.hints.code'))
-                            ->maxLength(255)
+                            ->required()
                             ->columnSpanFull(),
                     ])
                     ->columns(2),

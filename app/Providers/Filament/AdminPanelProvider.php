@@ -28,10 +28,28 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandLogo(asset('images/logo.jpg'))
-            ->brandLogoHeight('2.5rem')
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('100px')
+            ->favicon(asset('favicon.png'))
+
             ->colors([
-                'primary' => Color::hex('#dac581'),
+                // Hand-built ramp instead of Color::hex(), which only keeps the hue of the
+                // colour it is given and drops its lightness onto a fixed vivid ramp.
+                // Shade 400 is the brand taupe: it is the shade Filament resolves for
+                // light-mode button backgrounds.
+                'primary' => array_map(Color::convertToOklch(...), [
+                    50 => '#F9F5F0',
+                    100 => '#F2ECE3',
+                    200 => '#E8DDCE',
+                    300 => '#D5C6B2',
+                    400 => '#B9A78F',
+                    500 => '#A5937A',
+                    600 => '#8E7D65',
+                    700 => '#736450',
+                    800 => '#5C4F3F',
+                    900 => '#4B4134',
+                    950 => '#2A231B',
+                ]),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
