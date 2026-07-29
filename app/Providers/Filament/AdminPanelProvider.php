@@ -28,13 +28,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo(asset('images/logo.jpg'))
             ->brandLogoHeight('2.5rem')
             ->colors([
-                // Same hue as the brand beige #D6CFBD (oklch hue ~89), but saturated
-                // enough for Filament to keep it: Color::generatePalette() zeroes the
-                // chroma of anything under 0.03, and #D6CFBD sits at 0.026.
-                'primary' => Color::hex('#D6CFBD'),
+                'primary' => Color::hex('#dac581'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

@@ -20,6 +20,21 @@ class ProductResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    public static function getModelLabel(): string
+    {
+        return __('panel.product.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('panel.product.plural_label');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('panel.product.plural_label');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ProductForm::configure($schema);
