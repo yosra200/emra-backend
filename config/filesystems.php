@@ -47,6 +47,18 @@ return [
             'report' => false,
         ],
 
+        // The Uploadable trait writes to public/assets/uploads/<folder> and stores only the
+        // bare filename in the database. One disk per folder keeps that filename resolvable
+        // by Filament's FileUpload/ImageColumn without any path prefix juggling.
+        'products' => [
+            'driver' => 'local',
+            'root' => public_path('assets/uploads/products'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/assets/uploads/products',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

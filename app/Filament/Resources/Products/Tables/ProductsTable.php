@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use App\Models\ProductImage;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -22,7 +23,7 @@ class ProductsTable
             ->columns([
                 ImageColumn::make('images.image')
                     ->label(__('panel.product.fields.image'))
-                    ->disk('public')
+                    ->disk(ProductImage::FOLDER)
                     ->circular()
                     ->limit(1),
 

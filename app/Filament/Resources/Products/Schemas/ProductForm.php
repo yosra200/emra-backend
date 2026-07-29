@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use App\Models\ProductImage;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -159,8 +160,11 @@ class ProductForm
                                 FileUpload::make('image')
                                     ->label(__('panel.product.fields.image'))
                                     ->image()
-                                    ->disk('public')
-                                    ->directory('products')
+                                    // The disk only resolves previews for already-saved files;
+                                    // storeFiles(false) hands the raw upload to the model so the
+                                    // Uploadable trait does the writing and naming.
+                                    ->disk(ProductImage::FOLDER)
+                                    ->storeFiles(false)
                                     ->imageEditor()
                                     ->maxSize(5120)
                                     ->required(),
