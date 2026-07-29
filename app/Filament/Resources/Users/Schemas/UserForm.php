@@ -20,9 +20,11 @@ class UserForm
                     ->label('الاسم الاخير')
                     ->required(),
                 TextInput::make('phone')
+                    ->label('رقم الهاتف')
                     ->tel()
                     ->required(),
                 TextInput::make('second_phone')
+                    ->label('رقم الهاتف الثاني')
                     ->tel()
                     ->default(null),
                 TextInput::make('address')

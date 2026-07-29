@@ -16,30 +16,36 @@ class UsersTable
         return $table
             ->columns([
                 TextColumn::make('first_name')
+                    ->label('الاسم الاول')
                     ->searchable(),
                 TextColumn::make('last_name')
+                    ->label('الاسم الاخير')
                     ->searchable(),
                 TextColumn::make('phone')
+                    ->label('رقم الهاتف')
                     ->searchable(),
                 TextColumn::make('second_phone')
+                    ->label('رقم الهاتف الثاني')
                     ->searchable(),
                 TextColumn::make('address')
+                    ->label('العنوان')
                     ->searchable(),
                 TextColumn::make('governorate')
+                    ->label('المحافظة')
                     ->searchable(),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label('عنوان البريد الإلكتروني')
                     ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 IconColumn::make('is_admin')
+                    ->label('هل هو مسؤول؟')
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label('تاريخ الإنشاء')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('تاريخ التحديث')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
