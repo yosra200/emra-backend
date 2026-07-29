@@ -28,6 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('2.5rem')
             ->colors([
                 // Same hue as the brand beige #D6CFBD (oklch hue ~89), but saturated
                 // enough for Filament to keep it: Color::generatePalette() zeroes the
