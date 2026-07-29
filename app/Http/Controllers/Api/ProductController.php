@@ -23,7 +23,7 @@ class ProductController extends Controller
     )]
     public function index()
     {
-        $products = Product::with(['category', 'images'])->get();
+        $products = Product::with(['category', 'images', 'variants.color'])->get();
         return $this->successResponse(ProductResource::collection($products), __('messages.products_retrieved'));
     }
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
     )]
     public function show($id)
     {
-        $product = Product::with(['category', 'images'])->find($id);
+        $product = Product::with(['category', 'images', 'variants.color'])->find($id);
         return $this->successResponse(new ProductResource($product), __('messages.product_retrieved'));
     }
 }

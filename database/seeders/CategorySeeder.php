@@ -13,17 +13,20 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'طرح شيفون',
-            'طرح قطن',
-            'طرح حرير',
-            'طرح لينن',
-            'أخمره',
-            'مكملات حجاب',
-            'أكسسوارز',
+            ['slug' => 'chiffon-scarves', 'name_ar' => 'طرح شيفون', 'name_en' => 'Chiffon scarves'],
+            ['slug' => 'cotton-scarves', 'name_ar' => 'طرح قطن', 'name_en' => 'Cotton scarves'],
+            ['slug' => 'silk-scarves', 'name_ar' => 'طرح حرير', 'name_en' => 'Silk scarves'],
+            ['slug' => 'linen-scarves', 'name_ar' => 'طرح لينن', 'name_en' => 'Linen scarves'],
+            ['slug' => 'khimars', 'name_ar' => 'أخمره', 'name_en' => 'Khimars'],
+            ['slug' => 'hijab-essentials', 'name_ar' => 'مكملات حجاب', 'name_en' => 'Hijab essentials'],
+            ['slug' => 'accessories', 'name_ar' => 'أكسسوارز', 'name_en' => 'Accessories'],
         ];
 
-        foreach ($categories as $name) {
-            Category::firstOrCreate(['name' => $name]);
+        foreach ($categories as $category) {
+            Category::firstOrCreate(
+                ['slug' => $category['slug']],
+                $category,
+            );
         }
     }
 }
