@@ -12,6 +12,7 @@ return [
     'product_retrieved' => 'تم استرجاع المنتج بنجاح.',
 
     'guest_token_required' => 'رمز الزائر مطلوب.',
+    'guest_token_generated' => 'تم إنشاء رمز الزائر بنجاح.',
     'favorites_retrieved' => 'تم استرجاع المفضلة بنجاح.',
     'favorite_added' => 'تمت إضافة المنتج إلى المفضلة بنجاح.',
     'favorite_removed' => 'تمت إزالة المنتج من المفضلة بنجاح.',

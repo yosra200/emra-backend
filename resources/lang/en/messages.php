@@ -12,6 +12,7 @@ return [
     'product_retrieved' => 'Product retrieved successfully.',
 
     'guest_token_required' => 'Guest token is required.',
+    'guest_token_generated' => 'Guest token generated successfully.',
     'favorites_retrieved' => 'Favorites retrieved successfully.',
     'favorite_added' => 'Product added to favorites successfully.',
     'favorite_removed' => 'Product removed from favorites successfully.',

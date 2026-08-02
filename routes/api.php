@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\GuestController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -32,6 +33,9 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'index');
     Route::get('/products/{id}', 'show');
 });
+
+
+Route::post('/guest-token', [GuestController::class, 'generateToken']);
 
 
 Route::controller(FavoriteController::class)->group(function () {

@@ -669,6 +669,21 @@
                 }
             }
         },
+        "/api/guest-token": {
+            "post": {
+                "tags": [
+                    "Guest"
+                ],
+                "summary": "Generate Guest Token",
+                "description": "Generate a unique guest identifier. The client stores it and sends it back in the Guest-Token header on the favorites and cart endpoints so a visitor keeps their data before signing up.",
+                "operationId": "fca7327fdf8f12bdd3b2a7165cdb4563",
+                "responses": {
+                    "200": {
+                        "description": "Guest token generated successfully"
+                    }
+                }
+            }
+        },
         "/api/products": {
             "get": {
                 "tags": [
@@ -739,6 +754,10 @@
         {
             "name": "Favorites",
             "description": "Favorites"
+        },
+        {
+            "name": "Guest",
+            "description": "Guest"
         },
         {
             "name": "Products",
