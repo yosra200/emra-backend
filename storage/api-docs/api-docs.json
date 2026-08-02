@@ -340,6 +340,219 @@
                 ]
             }
         },
+        "/api/cart": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Get Cart",
+                "description": "Retrieve the cart of the authenticated user, or of a guest identified by the Guest-Token header. Returns an empty cart when none exists yet.",
+                "operationId": "f5a6af9d859f5af3146dd7e0f33f80c2",
+                "parameters": [
+                    {
+                        "name": "Guest-Token",
+                        "in": "header",
+                        "description": "Guest identifier, required when the request is not authenticated",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cart retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Guest token is required"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Add To Cart",
+                "description": "Add a product variant to the cart. When the variant is already in the cart its quantity is increased instead of adding a second line. The cart is created on the fly if it does not exist.",
+                "operationId": "3283d17024a75328763e21978d85cf48",
+                "parameters": [
+                    {
+                        "name": "Guest-Token",
+                        "in": "header",
+                        "description": "Guest identifier, required when the request is not authenticated",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_variant_id"
+                                ],
+                                "properties": {
+                                    "product_variant_id": {
+                                        "description": "Product variant ID",
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "description": "Quantity to add, defaults to 1",
+                                        "type": "integer",
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product added to cart successfully"
+                    },
+                    "400": {
+                        "description": "Guest token is required"
+                    },
+                    "422": {
+                        "description": "Validation error or not enough stock"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Clear Cart",
+                "description": "Remove every item from the cart of the authenticated user, or of the guest identified by the Guest-Token header.",
+                "operationId": "a3e8164a5241227f621eac34aaba1a0f",
+                "parameters": [
+                    {
+                        "name": "Guest-Token",
+                        "in": "header",
+                        "description": "Guest identifier, required when the request is not authenticated",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cart cleared successfully"
+                    },
+                    "400": {
+                        "description": "Guest token is required"
+                    }
+                }
+            }
+        },
+        "/api/cart/{itemId}": {
+            "put": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Update Cart Item",
+                "description": "Set the quantity of a cart item. The item must belong to the cart of the authenticated user or of the guest identified by the Guest-Token header.",
+                "operationId": "fb37863e7a6344362e796de5deee696e",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "description": "Cart item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Guest-Token",
+                        "in": "header",
+                        "description": "Guest identifier, required when the request is not authenticated",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "description": "New quantity",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cart updated successfully"
+                    },
+                    "400": {
+                        "description": "Guest token is required"
+                    },
+                    "404": {
+                        "description": "Cart item not found"
+                    },
+                    "422": {
+                        "description": "Validation error or not enough stock"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Remove Cart Item",
+                "description": "Remove a single item from the cart of the authenticated user, or of the guest identified by the Guest-Token header.",
+                "operationId": "b73fed7e79f1ebea0e19417a04bc670d",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "description": "Cart item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Guest-Token",
+                        "in": "header",
+                        "description": "Guest identifier, required when the request is not authenticated",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product removed from cart successfully"
+                    },
+                    "400": {
+                        "description": "Guest token is required"
+                    },
+                    "404": {
+                        "description": "Cart item not found"
+                    }
+                }
+            }
+        },
         "/api/favorites": {
             "get": {
                 "tags": [
@@ -518,6 +731,10 @@
         {
             "name": "Profile",
             "description": "Profile"
+        },
+        {
+            "name": "Cart",
+            "description": "Cart"
         },
         {
             "name": "Favorites",
