@@ -7,6 +7,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\forgotPasswordRequest;
 use App\Http\Requests\resetPasswordRequest;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -54,7 +56,7 @@ class AuthController extends Controller
 
         return $this->successResponse(
             [
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token,
             ],
             __('messages.register_success'),
@@ -101,7 +103,7 @@ class AuthController extends Controller
 
         return $this->successResponse(
             [
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token,
             ],
             __('messages.login_success'),
@@ -197,6 +199,65 @@ class AuthController extends Controller
             422
         );
     }
+    #[OA\Get(
+        path: '/api/profile',
+        summary: 'Show Profile',
+        description: 'Get the authenticated user profile',
+        tags: ['Profile'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(response: 200, description: 'Profile retrieved successfully'),
+            new OA\Response(response: 401, description: 'Unauthenticated')
+        ]
+    )]
+    public function profile(Request $request)
+    {
+        return $this->successResponse(
+            new UserResource($request->user()),
+            __('messages.profile_retrieved'),
+            200
+        );
+    }
+
+    #[OA\Put(
+        path: '/api/profile',
+        summary: 'Update Profile',
+        description: 'Update the authenticated user profile',
+        tags: ['Profile'],
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'first_name', type: 'string', example: 'Yosra'),
+                    new OA\Property(property: 'last_name', type: 'string', example: 'Khattab'),
+                    new OA\Property(property: 'phone', type: 'string', example: '01000000000'),
+                    new OA\Property(property: 'second_phone', type: 'string', example: '01100000000', nullable: true),
+                    new OA\Property(property: 'address', type: 'string', example: 'Mansoura', nullable: true),
+                    new OA\Property(property: 'governorate', type: 'string', example: 'Dakahlia', nullable: true),
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'yosra@gmail.com'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: 'Profile updated successfully'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 422, description: 'Validation error')
+        ]
+    )]
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        $user = $request->user();
+
+        $user->update($request->validated());
+
+        return $this->successResponse(
+            new UserResource($user->fresh()),
+            __('messages.profile_updated'),
+            200
+        );
+    }
+
     #[OA\Post(
         path: '/api/logout',
         summary: 'Logout',

@@ -16,9 +16,14 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
 
     Route::post('/login', 'login');
-    Route::delete('/logout', 'logout');
     Route::post('/forgot-password', 'forgotPassword');
     Route::post('/reset-password', 'resetPassword');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::delete('/logout', 'logout');
+        Route::get('/profile', 'profile');
+        Route::match(['put', 'patch'], '/profile', 'updateProfile');
+    });
 });
 
 Route::controller(ProductController::class)->group(function () {
