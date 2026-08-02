@@ -14,6 +14,11 @@ class FavoriteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'product_id' => $this->product_id,
+            'created_at' => $this->created_at,
+            'product' => new ProductResource($this->whenLoaded('product')),
+        ];
     }
 }

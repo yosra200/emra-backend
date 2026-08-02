@@ -2,34 +2,47 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use  App\Models\Product;
-use  App\Models\Color;
-use  App\Models\Size;
 
 class CartItem extends Model
 {
     protected $fillable = [
         'cart_id',
-        'product_id',
+        'product_variant_id',
         'quantity',
-        'price',
-        'color_id',
-        'size_id',
     ];
 
-    public function product()
+    protected function casts(): array
     {
-        return $this->belongsTo(Product::class);
+        return [
+            'quantity' => 'integer',
+        ];
     }
 
-    public function color()
+    /**
+     * Unit price taken from the product the variant belongs to.
+     */
+    protected function unitPrice(): Attribute
     {
-        return $this->belongsTo(Color::class);
+        return Attribute::get(fn (): float => (float) ($this->productVariant?->product?->final_price ?? 0));
     }
 
-    public function size()
+    /**
+     * Line total for this item.
+     */
+    protected function total(): Attribute
     {
-        return $this->belongsTo(Size::class);
+        return Attribute::get(fn (): float => $this->unit_price * $this->quantity);
+    }
+
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
+
+    public function productVariant()
+    {
+        return $this->belongsTo(ProductVariant::class);
     }
 }

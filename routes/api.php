@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\FavoriteController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -29,6 +30,13 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'index');
     Route::get('/products/{id}', 'show');
+});
+
+
+Route::controller(FavoriteController::class)->group(function () {
+    Route::get('/favorites', 'getFavorites');
+    Route::post('/favorites', 'addToFavorites');
+    Route::delete('/favorites/{productId}', 'cancleFavorite');
 });
 
 
