@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\GuestController;
+use App\Http\Controllers\Api\ContactUsController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -44,6 +45,9 @@ Route::controller(FavoriteController::class)->group(function () {
     Route::delete('/favorites/{productId}', 'cancleFavorite');
 });
 
+Route::controller(ContactUsController::class)->group(function () {
+    Route::post('/contact-us', 'store');
+});
 
 Route::controller(CartController::class)->group(function () {
     Route::get('/cart', 'getCart');

@@ -102,6 +102,37 @@ return [
         ],
     ],
 
+    'faq' => [
+        'label' => 'FAQ',
+        'plural_label' => 'FAQs',
+        'sections' => [
+            'details' => 'Question details',
+        ],
+        'fields' => [
+            'question' => 'Question',
+            'question_ar' => 'Question (Arabic)',
+            'question_en' => 'Question (English)',
+            'answer' => 'Answer',
+            'answer_ar' => 'Answer (Arabic)',
+            'answer_en' => 'Answer (English)',
+            'created_at' => 'Created at',
+        ],
+    ],
+
+    'about' => [
+        'title' => 'About us',
+        'section' => 'About us content',
+        'hint' => 'This text is shown on the About us page of the website and the app.',
+        'fields' => [
+            'about_us_ar' => 'About us (Arabic)',
+            'about_us_en' => 'About us (English)',
+        ],
+        'actions' => [
+            'save' => 'Save',
+        ],
+        'saved' => 'Changes saved successfully.',
+    ],
+
     'language' => [
         'label' => 'Language',
         'ar' => 'العربية',

@@ -553,6 +553,61 @@
                 }
             }
         },
+        "/api/contact-us": {
+            "post": {
+                "tags": [
+                    "Contact us"
+                ],
+                "summary": "Send Contact Message",
+                "description": "Store a message sent from the contact form. Open to guests and signed-in customers alike; the message then shows up in the admin panel.",
+                "operationId": "f481bdd67a55c7284f031bc50f598646",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "phone",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Sender name",
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "phone": {
+                                        "description": "Sender phone number",
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "email": {
+                                        "description": "Sender email, optional",
+                                        "type": "string",
+                                        "format": "email",
+                                        "nullable": true
+                                    },
+                                    "message": {
+                                        "description": "Message body",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Your message has been sent successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/api/favorites": {
             "get": {
                 "tags": [
@@ -750,6 +805,10 @@
         {
             "name": "Cart",
             "description": "Cart"
+        },
+        {
+            "name": "Contact us",
+            "description": "Contact us"
         },
         {
             "name": "Favorites",
