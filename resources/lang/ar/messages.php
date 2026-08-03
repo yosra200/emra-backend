@@ -23,6 +23,8 @@ return [
     'cart_item_removed' => 'تمت إزالة المنتج من السلة بنجاح.',
     'cart_cleared' => 'تم إفراغ السلة بنجاح.',
     'contact_message_sent' => 'تم إرسال رسالتك بنجاح.',
+    'faqs_retrieved' => 'تم استرجاع الأسئلة الشائعة بنجاح.',
+    'about_us_retrieved' => 'تم استرجاع صفحة من نحن بنجاح.',
     'cart_item_not_found' => 'هذا المنتج غير موجود في السلة.',
     'insufficient_stock' => 'الكمية المتاحة غير كافية. المتوفر :stock فقط.',
 

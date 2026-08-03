@@ -23,6 +23,8 @@ return [
     'cart_item_removed' => 'Product removed from cart successfully.',
     'cart_cleared' => 'Cart cleared successfully.',
     'contact_message_sent' => 'Your message has been sent successfully.',
+    'faqs_retrieved' => 'FAQs retrieved successfully.',
+    'about_us_retrieved' => 'About us retrieved successfully.',
     'cart_item_not_found' => 'Cart item not found.',
     'insufficient_stock' => 'Not enough stock. Only :stock item(s) available.',
 

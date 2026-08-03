@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\GuestController;
 use App\Http\Controllers\Api\ContactUsController;
+use App\Http\Controllers\Api\PageController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -47,6 +48,11 @@ Route::controller(FavoriteController::class)->group(function () {
 
 Route::controller(ContactUsController::class)->group(function () {
     Route::post('/contact-us', 'store');
+});
+
+Route::controller(PageController::class)->group(function () {
+    Route::get('/faqs', 'faqs');
+    Route::get('/about-us', 'aboutUs');
 });
 
 Route::controller(CartController::class)->group(function () {
