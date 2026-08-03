@@ -739,6 +739,36 @@
                 }
             }
         },
+        "/api/faqs": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Get FAQs",
+                "description": "Retrieve the frequently asked questions managed from the admin panel. Each entry carries the text of the current app locale plus both translations.",
+                "operationId": "48ad3c5ff3b66e442436b5bc0262b987",
+                "responses": {
+                    "200": {
+                        "description": "FAQs retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/about-us": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Get About Us",
+                "description": "Retrieve the About us text managed from the admin panel, in the current app locale plus both translations.",
+                "operationId": "7d31bb46ec952fcb6324d58c21ce2008",
+                "responses": {
+                    "200": {
+                        "description": "About us retrieved successfully"
+                    }
+                }
+            }
+        },
         "/api/products": {
             "get": {
                 "tags": [
@@ -817,6 +847,10 @@
         {
             "name": "Guest",
             "description": "Guest"
+        },
+        {
+            "name": "Pages",
+            "description": "Pages"
         },
         {
             "name": "Products",
