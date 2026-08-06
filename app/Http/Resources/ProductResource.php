@@ -31,7 +31,7 @@ class ProductResource extends JsonResource
             'is_featured' => $this->is_featured,
             'is_best_seller' => $this->is_best_seller,
             'is_new_arrival' => $this->is_new_arrival,
-            'in_stock' => $this->whenLoaded('variants', fn (): bool => $this->in_stock),
+            'in_stock' => $this->whenLoaded('variants', fn(): bool => $this->in_stock),
             'category' => new CategoryResource($this->whenLoaded('category')),
             'images' => ProductImageResource::collection($this->whenLoaded('images')),
             'variants' => ProductVariantResource::collection($this->whenLoaded('variants')),

@@ -5,9 +5,12 @@ namespace App\Filament\Resources\Products\Pages;
 use App\Filament\Resources\Products\ProductResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use App\Traits\Uploadable;
 
 class EditProduct extends EditRecord
 {
+    use Uploadable;
+
     protected static string $resource = ProductResource::class;
 
     protected function getHeaderActions(): array

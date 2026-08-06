@@ -6,6 +6,7 @@ use App\Models\ProductImage;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -23,9 +24,10 @@ class ProductsTable
             ->columns([
                 ImageColumn::make('images.image')
                     ->label(__('panel.product.fields.image'))
-                    ->disk(ProductImage::FOLDER)
+                    ->disk('uploads')
                     ->circular()
                     ->limit(1),
+
 
                 TextColumn::make('name_ar')
                     ->label(__('panel.product.fields.name_ar'))
@@ -59,7 +61,7 @@ class ProductsTable
                     ->label(__('panel.product.fields.discount'))
                     ->badge()
                     ->color('danger')
-                    ->formatStateUsing(fn (?int $state): ?string => $state !== null ? "{$state}%" : null)
+                    ->formatStateUsing(fn(?int $state): ?string => $state !== null ? "{$state}%" : null)
                     ->placeholder('—'),
 
                 TextColumn::make('variants_count')
@@ -71,7 +73,7 @@ class ProductsTable
                     ->label(__('panel.variant.fields.stock'))
                     ->sum('variants', 'stock')
                     ->badge()
-                    ->color(fn ($state): string => (int) $state > 0 ? 'success' : 'danger'),
+                    ->color(fn($state): string => (int) $state > 0 ? 'success' : 'danger'),
 
                 IconColumn::make('is_active')
                     ->label(__('panel.product.fields.is_active'))
@@ -120,13 +122,14 @@ class ProductsTable
 
                 Filter::make('on_sale')
                     ->label(__('panel.product.filters.on_sale'))
-                    ->query(fn (Builder $query): Builder => $query
+                    ->query(fn(Builder $query): Builder => $query
                         ->whereNotNull('sale_price')
                         ->whereColumn('sale_price', '<', 'price')),
             ])
             ->defaultSort('created_at', 'desc')
             ->recordActions([
                 EditAction::make(),
+                deleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

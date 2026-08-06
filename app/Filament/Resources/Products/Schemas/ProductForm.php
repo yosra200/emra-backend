@@ -158,16 +158,9 @@ class ProductForm
                             ->hiddenLabel()
                             ->schema([
                                 FileUpload::make('image')
-                                    ->label(__('panel.product.fields.image'))
                                     ->image()
-                                    // The disk only resolves previews for already-saved files;
-                                    // storeFiles(false) hands the raw upload to the model so the
-                                    // Uploadable trait does the writing and naming.
-                                    ->disk(ProductImage::FOLDER)
-                                    ->storeFiles(false)
-                                    ->imageEditor()
-                                    ->maxSize(5120)
-                                    ->required(),
+                                    ->disk('uploads')
+                                    ->directory('products'),
                             ])
                             ->addActionLabel(__('panel.product.actions.add_image'))
                             ->defaultItems(0)
@@ -208,12 +201,13 @@ class ProductForm
                                             ->maxLength(255),
                                     ]),
 
+
                                 TextInput::make('sku')
                                     ->label(__('panel.variant.fields.sku'))
                                     ->required()
                                     ->maxLength(255)
                                     ->unique('product_variants', 'sku', ignoreRecord: true)
-                                    ->default(fn (): string => Str::upper(Str::random(8))),
+                                    ->default(fn(): string => Str::upper(Str::random(8))),
 
                                 TextInput::make('stock')
                                     ->label(__('panel.variant.fields.stock'))
@@ -227,7 +221,7 @@ class ProductForm
                             ->defaultItems(0)
                             ->reorderable(false)
                             ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['sku'] ?? null),
+                            ->itemLabel(fn(array $state): ?string => $state['sku'] ?? null),
                     ]),
             ]);
     }

@@ -10,6 +10,7 @@
         "darkaonline/l5-swagger": "^11.1",
         "doctrine/annotations": "^2.0",
         "filament/filament": "^5.7",
+        "intervention/image": "^4.2",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",

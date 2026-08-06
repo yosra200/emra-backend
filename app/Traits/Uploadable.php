@@ -38,7 +38,9 @@ trait Uploadable
         $rasterImageExtensions = ['jpg', 'jpeg', 'jfif', 'png', 'gif', 'webp'];
 
         if (in_array($extension, $rasterImageExtensions, true)) {
-            $image = $manager->read($file->getRealPath());
+            // $image = $manager->read($file->getRealPath());
+
+            $image = $manager->decodePath($file->getRealPath());
 
             if ($resizeWidth || $resizeHeight) {
                 $image->scaleDown($resizeWidth, $resizeHeight);
