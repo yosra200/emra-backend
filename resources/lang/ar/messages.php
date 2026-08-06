@@ -8,6 +8,9 @@ return [
     'logout_success' => 'تم تسجيل الخروج بنجاح.',
     'profile_retrieved' => 'تم استرجاع بيانات الحساب بنجاح.',
     'profile_updated' => 'تم تحديث بيانات الحساب بنجاح.',
+    'password_reset_link_sent' => 'تم إرسال رابط إعادة تعيين كلمة المرور بنجاح.',
+    'password_reset_user_not_found' => 'لا يوجد مستخدم مسجل بهذا البريد الإلكتروني.',
+    'password_reset_success' => 'تم إعادة تعيين كلمة المرور بنجاح.',
     'products_retrieved' => 'تم استرجاع المنتجات بنجاح.',
     'product_retrieved' => 'تم استرجاع المنتج بنجاح.',
 

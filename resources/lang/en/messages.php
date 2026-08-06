@@ -8,6 +8,9 @@ return [
     'logout_success' => 'Logged out successfully.',
     'profile_retrieved' => 'Profile retrieved successfully.',
     'profile_updated' => 'Profile updated successfully.',
+    'password_reset_link_sent' => 'Password reset link sent successfully.',
+    'password_reset_user_not_found' => 'We could not find a user with that email address.',
+    'password_reset_success' => 'Password reset successfully.',
     'products_retrieved' => 'Products retrieved successfully.',
     'product_retrieved' => 'Product retrieved successfully.',
 

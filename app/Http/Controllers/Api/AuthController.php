@@ -141,13 +141,13 @@ class AuthController extends Controller
         if ($status === Password::RESET_LINK_SENT) {
             return $this->successResponse(
                 [],
-                __('Password reset link sent successfully.'),
+                __('messages.password_reset_link_sent'),
                 200
             );
         }
 
         return $this->errorResponse(
-            __('We could not find a user with that email address.'),
+            __('messages.password_reset_user_not_found'),
             422
         );
     }
@@ -189,7 +189,7 @@ class AuthController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return $this->successResponse(
                 [],
-                __('Password reset successfully.'),
+                __('messages.password_reset_success'),
                 200
             );
         }

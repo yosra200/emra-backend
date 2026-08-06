@@ -35,3 +35,5 @@ class UserResourceTest extends TestCase
         $this->assertCount(0, UserResource::getGlobalSearchResults('Commodi'));
     }
 }
+
+
