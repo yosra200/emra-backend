@@ -11,8 +11,8 @@ class SetApiLocale
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $language = strtolower((string) $request->header('Accept-Language', ''));
-        $locale = str_starts_with($language, 'ar') ? 'ar' : 'en';
+        $language = strtolower(trim((string) $request->header('Accept-Language', '')));
+        $locale = preg_match('/^(ar|arabic)(?:[-_,;]|$)/', $language) === 1 ? 'ar' : 'en';
 
         App::setLocale($locale);
 
