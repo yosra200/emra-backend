@@ -9,6 +9,7 @@ return [
     'boolean' => 'The :attribute field must be true or false.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'date' => 'The :attribute is not a valid date.',
+    'digits' => 'The :attribute must be :digits digits.',
     'email' => 'The :attribute must be a valid email address.',
     'exists' => 'The selected :attribute is invalid.',
     'file' => 'The :attribute must be a file.',
@@ -53,6 +54,7 @@ return [
         'email' => 'email address',
         'password' => 'password',
         'password_confirmation' => 'password confirmation',
+        'code' => 'verification code',
         'token' => 'token',
     ],
 ];

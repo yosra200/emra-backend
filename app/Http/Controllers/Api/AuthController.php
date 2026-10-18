@@ -10,12 +10,14 @@ use App\Http\Requests\resetPasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\ResetPasswordNotification;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -113,8 +115,8 @@ class AuthController extends Controller
 
     #[OA\Post(
         path: '/api/forgot-password',
-        summary: 'Forgot Password',
-        description: "Send password reset link to user's email",
+        summary: 'Send Password Reset Code',
+        description: "Send a six-digit password reset code to the user's email",
         tags: ['Authentication'],
         requestBody: new OA\RequestBody(
             required: true,
@@ -126,46 +128,47 @@ class AuthController extends Controller
             )
         ),
         responses: [
-            new OA\Response(response: 200, description: 'Reset link sent successfully'),
+            new OA\Response(response: 200, description: 'Reset code sent successfully'),
             new OA\Response(response: 422, description: 'User not found')
         ]
     )]
 
     public function forgotPassword(forgotPasswordRequest $request)
     {
+        $user = User::where('email', $request->validated('email'))->firstOrFail();
+        $broker = Password::broker();
+        $repository = $broker->getRepository();
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status === Password::RESET_LINK_SENT) {
-            return $this->successResponse(
-                [],
-                __('messages.password_reset_link_sent'),
-                200
-            );
+        if ($repository->recentlyCreatedToken($user)) {
+            return $this->errorResponse(__('messages.password_reset_throttled'), 429);
         }
 
-        return $this->errorResponse(
-            __('messages.password_reset_user_not_found'),
-            422
+        $code = (string) random_int(100000, 999999);
+        $table = config('auth.passwords.'.config('auth.defaults.passwords').'.table');
+
+        DB::table($table)->updateOrInsert(
+            ['email' => $user->getEmailForPasswordReset()],
+            ['token' => Hash::make($code), 'created_at' => now()]
         );
+
+        $user->notify(new ResetPasswordNotification($code));
+
+        return $this->successResponse([], __('messages.password_reset_code_sent'), 200);
     }
 
     #[OA\Post(
         path: '/api/reset-password',
         summary: 'Reset Password',
-        description: 'Reset user password using reset token',
+        description: 'Reset user password using the six-digit code sent by email',
         tags: ['Authentication'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ['email', 'password', 'password_confirmation', 'token'],
+                required: ['email', 'password', 'code'],
                 properties: [
                     new OA\Property(property: 'email', type: 'string', format: 'email', example: 'yosra@gmail.com'),
                     new OA\Property(property: 'password', type: 'string', format: 'password', example: '12345678'),
-                    new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: '12345678'),
-                    new OA\Property(property: 'token', type: 'string', example: 'reset_token_here')
+                    new OA\Property(property: 'code', type: 'string', example: '123456', minLength: 6, maxLength: 6)
                 ]
             )
         ),
@@ -175,10 +178,13 @@ class AuthController extends Controller
         ]
     )]
 
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(resetPasswordRequest $request)
     {
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            [
+                ...$request->safe()->except('code'),
+                'token' => $request->validated('code'),
+            ],
             function ($user, $password) {
                 $user->forceFill([
                     'password' => Hash::make($password),

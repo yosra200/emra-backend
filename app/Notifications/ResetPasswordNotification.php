@@ -11,12 +11,8 @@ class ResetPasswordNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public function __construct(public readonly string $code)
     {
-        //
     }
 
     /**
@@ -35,9 +31,11 @@ class ResetPasswordNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject(__('messages.password_reset_code_subject'))
+            ->greeting(__('messages.password_reset_greeting'))
+            ->line(__('messages.password_reset_code_body', ['code' => $this->code]))
+            ->line(__('messages.password_reset_code_expiry', ['minutes' => config('auth.passwords.users.expire')]))
+            ->line(__('messages.password_reset_ignore'));
     }
 
     /**

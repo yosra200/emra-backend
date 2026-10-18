@@ -20,10 +20,10 @@ Route::middleware(SetApiLocale::class)->group(function () {
         Route::post('/register', 'register');
         Route::post('/login', 'login');
         Route::delete('/logout', 'logout');
-        Route::post('/forgot-password', 'forgotPassword');
+        Route::post('/forgot-password', 'forgotPassword')->middleware('throttle:5,1');
     });
 
-    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('throttle:5,1');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/logout', [AuthController::class, 'logout']);
@@ -63,8 +63,3 @@ Route::controller(CartController::class)->group(function () {
     Route::delete('/cart/{itemId}', 'removeCartItem');
     Route::delete('/cart', 'clearCart');
 });
-
-
-Route::get('/reset-password/{token}', function ($token) {
-    return $token;
-})->name('password.reset');

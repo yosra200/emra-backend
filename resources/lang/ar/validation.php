@@ -9,6 +9,7 @@ return [
     'boolean' => 'يجب أن تكون قيمة :attribute صحيحة أو خاطئة.',
     'confirmed' => 'تأكيد :attribute غير متطابق.',
     'date' => ':attribute ليس تاريخًا صحيحًا.',
+    'digits' => 'يجب أن يتكون :attribute من :digits أرقام.',
     'email' => 'يجب أن يكون :attribute عنوان بريد إلكتروني صحيحًا.',
     'exists' => 'القيمة المحددة لـ :attribute غير صحيحة.',
     'file' => 'يجب أن يكون :attribute ملفًا.',
@@ -53,6 +54,7 @@ return [
         'email' => 'البريد الإلكتروني',
         'password' => 'كلمة المرور',
         'password_confirmation' => 'تأكيد كلمة المرور',
+        'code' => 'رمز التحقق',
         'token' => 'رمز التحقق',
     ],
 ];
