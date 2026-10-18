@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: 'Emra Backend API'
+  version: 1.0.0
+servers:
+  -
+    url: 'https://emra.pixelmindeg.com'
+paths:
+  /api/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register
+      description: 'Create a new user account'
+      operationId: 8e4e3cb7b46126f4696379d3c7eeb4ad
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+              properties:
+                name:
+                  type: string
+                  example: Yosra
+                email:
+                  type: string
+                  format: email
+                  example: yosra@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: '12345678'
+                password_confirmation:
+                  type: string
+                  format: password
+                  example: '12345678'
+              type: object
+      responses:
+        '201':
+          description: 'Registered successfully'
+  /api/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login
+      description: 'Login user and return access token'
+      operationId: 222b2625838e3c57e017987f73598fda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: yosra@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: '12345678'
+              type: object
+      responses:
+        '200':
+          description: 'Login successful'
+        '401':
+          description: 'Invalid credentials'
+  /api/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: 'Forgot Password'
+      description: "Send password reset link to user's email"
+      operationId: 20d78161b19ac6afb56924e74974ec46
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: yosra@gmail.com
+              type: object
+      responses:
+        '200':
+          description: 'Reset link sent successfully'
+        '422':
+          description: 'User not found'
+  /api/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout
+      description: 'Logout authenticated user'
+      operationId: ad65cbbd4e9f201619eae184a5961a98
+      responses:
+        '200':
+          description: 'Logged out successfully'
+        '401':
+          description: Unauthenticated
+      security:
+        -
+          sanctum: []
+components:
+  securitySchemes:
+    sanctum:
+      type: http
+      bearerFormat: JWT
+      scheme: bearer
+tags:
+  -
+    name: Authentication
+    description: Authentication

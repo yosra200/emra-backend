@@ -43,11 +43,9 @@ return [
                 /*
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
-                'annotations' => [
-                    base_path('app'),
-                    base_path('routes'),
-                ],
-            ],
+'annotations' => [
+    base_path('app'), // Make sure 'app' or 'app/Http/Controllers' is listed here
+],            ],
         ],
     ],
     'defaults' => [
@@ -137,10 +135,7 @@ return [
              */
             // Use ReflectionAnalyser with both attribute and docblock support so
             // swagger-php parses PHP 8 attributes and traditional PHPDoc annotations.
-            'analyser' => new \OpenApi\Analysers\ReflectionAnalyser([
-                new \OpenApi\Analysers\AttributeAnnotationFactory(),
-                new \OpenApi\Analysers\DocBlockAnnotationFactory(),
-            ]),
+            
 
             /**
              * analysis: defaults to a new \OpenApi\Analysis .

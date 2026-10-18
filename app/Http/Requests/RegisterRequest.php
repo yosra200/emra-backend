@@ -36,7 +36,14 @@ class RegisterRequest extends FormRequest
 
         'email' => 'required|email|unique:users,email',
 
-        'password' => 'required|string|min:8|confirmed',
+        'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z])(?=.*[0-9])/|confirmed',
+    ];
+}
+
+public function messages(): array
+{
+    return [
+        'password.regex' => 'يجب أن تحتوي كلمة المرور على أحرف وأرقام على الأقل.',
     ];
 }
 }

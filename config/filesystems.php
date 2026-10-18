@@ -29,6 +29,12 @@ return [
     */
 
     'disks' => [
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('assets/uploads'),
+            'url' => env('APP_URL') . '/assets/uploads',
+            'visibility' => 'public',
+        ],
 
         'local' => [
             'driver' => 'local',
@@ -41,7 +47,19 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/') . '/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        // The Uploadable trait writes to public/assets/uploads/<folder> and stores only the
+        // bare filename in the database. One disk per folder keeps that filename resolvable
+        // by Filament's FileUpload/ImageColumn without any path prefix juggling.
+        'products' => [
+            'driver' => 'local',
+            'root' => public_path('assets/uploads/products'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/') . '/assets/uploads/products',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
