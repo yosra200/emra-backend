@@ -153,7 +153,7 @@ class AuthController extends Controller
 
         $user->notify(new ResetPasswordNotification($code));
 
-        return $this->successResponse([], __('messages.password_reset_code_sent'), 200);
+        return $this->successMessage(__('messages.password_reset_code_sent'), 200);
     }
 
     #[OA\Post(
